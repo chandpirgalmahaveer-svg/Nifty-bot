@@ -1,0 +1,20 @@
+name: Nifty Operator Telegram Bot
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/10 8-9 * * 1-5"
+
+jobs:
+  send-nifty-signal:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r requirements.txt
+      - run: python nifty_operator_bot.py
+        env:
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
